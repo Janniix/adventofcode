@@ -46,12 +46,12 @@ func main() {
 }
 
 // solve part one
-func partone (leftList []int, rightList []int){
+func partone (leftList []int, rightList []int) {
     fmt.Println("Calculating total distance")
     listsLength := len(leftList)
     totalDistance := 0
     for i := 0; i < listsLength; i++ {
-        totalDistance += partone_abs(leftList[i] - rightList[i])
+        totalDistance += util.Abs(leftList[i] - rightList[i])
     }
     fmt.Printf("The total distance is: %d\n", totalDistance)
 }
@@ -85,11 +85,4 @@ func dayone_bubblesort(slice []int) []int {
         }
     }
     return slice
-}
-
-func partone_abs(number int) int {
-    if number < 0 {
-        return number * -1
-    }
-    return number
 }
