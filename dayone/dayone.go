@@ -2,29 +2,21 @@ package main
 
 import (
     "fmt" // library for printing stuff to the console
-    "log" 
-    "os" // library for executing os calls
-    "bufio" // library for reading file input
     "strconv" // library for converting strings into other datatypes
     "strings" // library for string manipulation
+    "log"
+    "adventofcode/util"
 )
 
 func main() {
     fmt.Println("Starting day one programm")
-    // open file
-
-    f, err := os.Open("dayone_input.txt")
-    if err != nil {
-        log.Fatal(err)
-    }
-    // remember to close the file at the end of the program
-    defer f.Close()
-
-    // read the file line by line using scanner
-    scanner := bufio.NewScanner(f)
     var leftList []int
     var rightList []int
     var line []string
+    scanner, file := util.ReadInputfile("dayone_input.txt")
+    // remember to close the file at the end of the program
+    defer file.Close()
+    // read the file line by line using scanner
     for scanner.Scan() {
         // do something with a line
         line = strings.Split(scanner.Text(), "   ") //split into left and right list
