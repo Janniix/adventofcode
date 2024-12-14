@@ -13,18 +13,23 @@ func main(){
 	defer file.Close()
 	var line string
 	safeCounter := 0
+	totalSafeCounter := 0
 	fmt.Println("Calculating the safe reports")
 	for scanner.Scan() {
 		line = scanner.Text()
-		if isSafe(convertStringArrayToIntArray(strings.Split(line, " "))) {
+		lineAsIntegerArray := convertStringArrayToIntArray(strings.Split(line, " "))
+		if isSafe(lineAsIntegerArray) {
 			safeCounter++
+			totalSafeCounter++
+		} else if isSafeAfterRemoveingASingleBadLevel(lineAsIntegerArray) {
+			totalSafeCounter++
 		}
 	}
-	fmt.Printf("There are: %d safe reports\n", safeCounter)
+	fmt.Printf("There are: %d safe reports without the dampener\n", safeCounter)
+	fmt.Printf("There are %d total safe reports with the dampener\n", totalSafeCounter)
 }
 
 func isSafe(slice []int) bool {
-	fmt.Println(slice)
 	ascending := slice[0] < slice[1]
 	for i := 0; i < len(slice) - 1; i++ {
 		if slice[i] < slice[i + 1] != ascending {
@@ -32,12 +37,28 @@ func isSafe(slice []int) bool {
 		}
 		difference := util.Abs(slice[i] - slice[i + 1])
 		if difference < 1 || difference > 3 {
-			fmt.Println("false")
 			return false
 		}
 	}
-	fmt.Println("true")
 	return true
+}
+
+func isSafeAfterRemoveingASingleBadLevel(slice []int) bool {
+	for i := 0; i < len(slice); i++ {
+		if isSafe(removeElementAtIndex(slice, i)) {
+			return true
+		}
+	}
+	return false
+}
+
+func removeElementAtIndex(slice []int, index int) []int {
+	// create new slice and copy values of original 
+	// note: could also kinda be done with the the append() function, but this would also change the original slice in some cases (e.g. if slice is as big or bigger then the array created by the append function) as a side effect 
+	newSlice := make([]int, len(slice)-1)
+	copy(newSlice[:index], slice[:index])
+	copy(newSlice[index:], slice[index+1:])
+	return newSlice
 }
 
 func convertStringArrayToIntArray(stringSlice []string) []int {
