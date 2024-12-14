@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-    fmt.Println("Starting day one programm")
+    fmt.Println("Starting day one program")
     var leftList []int
     var rightList []int
     var line []string

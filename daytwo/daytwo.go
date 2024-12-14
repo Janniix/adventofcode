@@ -8,7 +8,7 @@ import (
 )
 
 func main(){
-	fmt.Println("Starting day two programm")
+	fmt.Println("Starting day two program")
 	scanner, file := util.ReadInputfile("daytwo_input.txt")
 	defer file.Close()
 	var line string
