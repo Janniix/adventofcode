@@ -10,28 +10,26 @@ import (
 )
 
 func main() {
-	//`don't\(\)|do\(\)|mul\(\d+,\d+\)`gm
 	fmt.Println("Staring day three program")
 	scanner, file := util.ReadInputfile("daythree_input.txt")
 	defer file.Close()
-	partone(scanner)
+	solveDayThree(scanner)
 }
 
-func partone(scanner *bufio.Scanner) {
+func solveDayThree(scanner *bufio.Scanner) {
 	fmt.Println("Calculating matches for partone")
 	var matches []string
 	var partTwoMatches []string
 	instructionsEnabled := true
 	partOneRegexMultiplicationPattern := regexp.MustCompile(`mul\(\d+,\d+\)`)
-	partTowRegexMultiplicationPattern := regexp.MustCompile(`don't\(\)|do\(\)|mul\(\d+,\d+\)`)
+	partTwoRegexMultiplicationPattern := regexp.MustCompile(`don't\(\)|do\(\)|mul\(\d+,\d+\)`)
 	for scanner.Scan() {
+		// Get matches for part one
 		partOneLineMatches := partOneRegexMultiplicationPattern.FindAllString(scanner.Text(), -1)
-		for _, a := range partOneLineMatches {
-			matches = append(matches, a)
-		}
-		partTwoLineMatches := partTowRegexMultiplicationPattern.FindAllString(scanner.Text(), -1)
+		matches = append(matches, partOneLineMatches...)
+		// Get matches for part two
+		partTwoLineMatches := partTwoRegexMultiplicationPattern.FindAllString(scanner.Text(), -1)
 		for _, a := range partTwoLineMatches {
-			fmt.Println(a)
 			if a == "don't()" {
 				instructionsEnabled = false
 				continue
@@ -45,7 +43,9 @@ func partone(scanner *bufio.Scanner) {
 		}
 
 	}
+	// Calculate sum for part one
 	calculateSum(matches)
+	// Calculate sum for part two
 	calculateSum(partTwoMatches)
 }
 
